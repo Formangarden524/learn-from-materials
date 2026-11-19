@@ -10,6 +10,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from finalize import finalize
+from workflow_io import skill_metadata
 from methodology import validate, markdown, edge_label
 from methodology_ui import overview_markup
 from render_page import render
@@ -71,8 +72,8 @@ class BilingualMethodologyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             result = finalize(ROOT / 'examples/overview-en-content.json', self.kb, Path(temporary) / 'out', 'english', compatibility='1.03')
             manifest = json.loads(Path(result['manifest']).read_text(encoding='utf-8'))
-            self.assertEqual(manifest['skillVersion'], '1.1.0')
-            self.assertEqual(manifest['skillRevision'], 'release')
+            self.assertEqual(manifest['skillVersion'], skill_metadata(ROOT)['version'])
+            self.assertEqual(manifest['skillRevision'], skill_metadata(ROOT)['revision'])
             self.assertEqual(manifest['visualReview'], 'not-run')
             with zipfile.ZipFile(result['archive']) as archive:
                 self.assertIsNone(archive.testzip())

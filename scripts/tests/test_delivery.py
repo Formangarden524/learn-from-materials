@@ -12,6 +12,7 @@ SCRIPTS=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(SCRIPTS))
 from delivery import check_canonical, export_readable, verify_readable
 from finalize import finalize
+from workflow_io import skill_metadata
 
 
 class DeliveryTests(unittest.TestCase):
@@ -55,7 +56,7 @@ class DeliveryTests(unittest.TestCase):
             self.assertEqual(page['meta']['pageId'],self.page['meta']['pageId'])
             self.assertEqual(Path(result['methodologyExport']).read_bytes(),Path(result['methodology']).read_bytes())
             manifest=json.loads(Path(result['manifest']).read_text(encoding='utf-8'))
-            self.assertEqual(manifest['skillVersion'],'1.1.0')
+            self.assertEqual(manifest['skillVersion'],skill_metadata(SCRIPTS.parent)['version'])
             self.assertEqual(manifest['methodologyExport'],'review.methodology.md')
             with zipfile.ZipFile(result['archive']) as z:
                 self.assertEqual(z.read('review.methodology.md'),z.read('review.learnkb/methodology.md'))

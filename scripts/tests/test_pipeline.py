@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
-from workflow_io import read_json, json_text, write_changed
+from workflow_io import skill_metadata, read_json, json_text, write_changed
 from unit_records import Sources, compile_unit, assemble
 from pipeline import validate_unit, checkpoint, preflight
 from pipeline_state import begin, end, report, inspect_state, finish, code_fingerprint
@@ -57,7 +57,7 @@ class AuthoringTests(unittest.TestCase):
         write_changed(self.kb / 'content-review.json', json_text(review))
         result = finalize(target, self.kb, self.root / 'delivery', 'new-authoring', compatibility='1.03')
         self.assertEqual(Path(result['methodologyExport']).read_bytes(), Path(result['methodology']).read_bytes())
-        self.assertEqual(read_json(result['manifest'])['skillVersion'], '1.1.0')
+        self.assertEqual(read_json(result['manifest'])['skillVersion'], skill_metadata(SCRIPTS.parent)['version'])
 
     def test_insertion_keeps_stable_content_ids_and_rebuilds_numeric_refs(self):
         record = read_json(self.records[0]); old_id = record['unit']['takeaways'][0]['id']
@@ -162,7 +162,7 @@ class CheckpointTests(unittest.TestCase):
 
     def test_preflight_does_not_install_or_require_optional_packages(self):
         result = preflight([self.source]); self.assertEqual(result['status'], 'passed')
-        self.assertEqual(result['skill']['version'], '1.1.0')
+        self.assertEqual(result['skill']['version'], skill_metadata(SCRIPTS.parent)['version'])
 
 
 if __name__ == '__main__':

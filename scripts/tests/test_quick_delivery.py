@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 from verify_static import verify as verify_static
+from workflow_io import skill_metadata
 
 
 class QuickDeliveryTests(unittest.TestCase):
@@ -171,7 +172,7 @@ class QuickDeliveryTests(unittest.TestCase):
         files = json.loads(result.stdout)
         page = json.loads(Path(files['page']).read_text(encoding='utf-8'))
         manifest = json.loads(Path(files['manifest']).read_text(encoding='utf-8'))
-        self.assertEqual(manifest['skillVersion'], '1.1.0')
+        self.assertEqual(manifest['skillVersion'], skill_metadata(ROOT)['version'])
         self.assertEqual(manifest['status'], 'static-only')
         self.assertEqual(manifest['visualReview'], 'not-run')
         self.assertEqual(page['meta']['pageId'], fixture['page']['meta']['pageId'])

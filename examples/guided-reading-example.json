@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "learn-from-materials/guided-reading-v1",
+  "meta": {
+    "book": "合成阅读材料（非出版物）",
+    "author": "示例作者",
+    "scope": "一个合成段落的交互演示",
+    "note": "本例为合成演示，不表示对真实出版物完成阅读或审核。",
+    "sourceType": "document",
+    "status": "prototype",
+    "representativeSpineId": "explain"
+  },
+  "presentation": {
+    "overviewTitle": "先看材料的问题，\n再理解它怎样解释。",
+    "overviewIntro": "用一段合成材料演示主线、作者说法与编辑归纳的分层。",
+    "representativeLabel": "代表内容 · 合成段落1",
+    "representativeTitle": "索引与讲解各有什么作用？",
+    "representativeIntro": "保留解释与区别，让更多细节按需展开。",
+    "representativeScope": "本例只有一个合成段落，展示两种理解角度。",
+    "sectionHeading": "两种理解角度",
+    "sectionEvidence": "synthesis",
+    "sectionRelation": "independent",
+    "sectionSourceIds": [
+      "q1"
+    ]
+  },
+  "spine": [
+    {
+      "id": "locate",
+      "title": "先定位",
+      "kicker": "找到相关信息",
+      "question": "索引能提供什么？",
+      "summary": "先从原文中找到需要阅读的段落，再继续理解其中关系。",
+      "relation": "本页把定位安排在入口，是编辑的阅读组织。",
+      "chapterRefs": [
+        "合成段落1"
+      ],
+      "sourceIds": [
+        "q1"
+      ],
+      "evidence": "synthesis"
+    },
+    {
+      "id": "explain",
+      "title": "再解释",
+      "kicker": "理解前提与联系",
+      "question": "讲解需要补足什么？",
+      "summary": "回到前提、区别与上下文，帮助读者理解原文的说法。",
+      "relation": "本页以这一问题组织代表讲解，不冒充作者命名框架。",
+      "chapterRefs": [
+        "合成段落1"
+      ],
+      "sourceIds": [
+        "q1"
+      ],
+      "evidence": "synthesis"
+    }
+  ],
+  "sections": [
+    {
+      "id": "index",
+      "title": "索引 · 定位",
+      "short": "定位",
+      "question": "索引在帮助读者完成什么？",
+      "explanation": "这份合成材料把索引的作用放在定位：读者知道想查什么时，可以从索引回到相应段落。它提供进一步阅读的入口，而理解一段材料还需要知道前提、区别和上下文。",
+      "details": [
+        {
+          "name": "索引",
+          "text": "这份合成材料把索引的作用放在定位：读者知道想查什么时，可以从索引回到相应段落。它提供进一步阅读的入口，而理解一段材料还需要知道前提、区别和上下文。"
+        }
+      ],
+      "distinction": "定位信息与解释信息是两种阅读任务。",
+      "sourceIds": [
+        "q1"
+      ],
+      "evidence": "material"
+    },
+    {
+      "id": "explain",
+      "title": "讲解 · 理解",
+      "short": "理解",
+      "question": "为什么结论之外还需要解释？",
+      "explanation": "合成材料要求讲解保留前提、区别和上下文联系。这样，读者可以知道结论在什么条件下成立，以及它怎样承接其他内容；阅读顺序由本页整理，原文则单独保留。",
+      "details": [
+        {
+          "name": "讲解",
+          "text": "合成材料要求讲解保留前提、区别和上下文联系。这样，读者可以知道结论在什么条件下成立，以及它怎样承接其他内容；阅读顺序由本页整理，原文则单独保留。"
+        }
+      ],
+      "distinction": "定位信息与解释信息是两种阅读任务。",
+      "sourceIds": [
+        "q1"
+      ],
+      "evidence": "material"
+    }
+  ],
+  "keyDistinction": {
+    "title": "定位与理解各有任务",
+    "text": "索引帮助找到信息；讲解保留理解所需的关系。",
+    "sourceIds": [
+      "q1"
+    ],
+    "evidence": "material"
+  },
+  "readingNotes": [
+    {
+      "title": "保留原文与整理层的区别",
+      "text": "本页分组是编辑归纳，引文保留合成材料原句。",
+      "sourceIds": [
+        "q1"
+      ],
+      "evidence": "synthesis"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "label": "合成段落1",
+      "title": "索引与讲解",
+      "group": [
+        "locate",
+        "explain"
+      ]
+    }
+  ],
+  "quotes": [
+    {
+      "id": "q1",
+      "text": "索引帮助读者找到信息；讲解需要说明前提、区别和上下文联系。",
+      "locator": "合成段落1",
+      "chapter": "索引与讲解"
+    }
+  ],
+  "synthesisNote": "阅读问题与展示顺序为本页归纳；原文为技能自带的合成演示文本。"
+}

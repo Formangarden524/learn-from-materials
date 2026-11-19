@@ -1,5 +1,23 @@
 # 更新日志 / Changelog
 
+## 1.2.0 · 2026-11-19 · Formangarden524 fork
+
+本 fork 在 1.1.0 基础上新增作者主线单书路线和轻量导读，保留原 quick／systematic 契约；不代表上游维护者发布。
+
+- 以作者原章序、概念与论证为主线，先确认主线和代表章节，再完成全书档案；有效提取、稳定标识与原复核记录可复用。
+- 新增纸白底／墨绿的可复用阅读模板，包含主线、原章导航、搜索、逐层展开和出处窗口；区分原文、转述与编辑归纳。
+- 新增 `render_guided.py` 与 `build_book_archive.py`，同源派生阅读页、Markdown 和书籍命名空间的 Wiki 复用数据；不自动写入主题 Wiki或跨书合并。
+- 新整书装配器当前限定页码映射 PDF；新模板当前为中文固定界面。原双语、三主题和六模块能力保留在既有路线。
+- 同步 fork 安装说明与版本元数据。源码同步和本地 ZIP 打包不表示已上传 GitHub Release 附件；机械校验不授予语义完成状态。
+
+### English
+
+- Adds an author-led PDF-book route: confirm the mainline and a representative chapter, then finish the traceable archive while reusing valid extraction, IDs and review evidence.
+- Adds reusable paper-white and dark-green reading templates with chapter navigation, search, progressive details and source windows. Original quotations, paraphrases and editorial synthesis remain distinct.
+- Adds independent guided rendering and book-archive assembly, deriving Markdown and book-scoped Wiki handoff data without writing to a Wiki or merging across books.
+- New book assembly currently requires page-mapped PDF content; new template labels are Chinese. Existing quick/systematic contracts retain their bilingual, three-theme, six-module capabilities.
+- Updates fork documentation and metadata; source sync and local ZIP packaging do not imply a published GitHub Release asset or new semantic approval.
+
 ## 1.1.0 · 2026-10-19
 
 相对于公开版本 1.0，本次更新完善顺序学习流程、来源结构复核、关系图阅读和交付一致性。
