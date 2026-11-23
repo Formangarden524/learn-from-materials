@@ -7,6 +7,9 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from cover_assets import load_cover
 import re
 import shutil
 import time
@@ -372,6 +375,10 @@ def build(args):
             'sections': copy.deepcopy(sections), 'quotes': copy.deepcopy(quotes),
             'note': '沿用已有样板讲解；不改写原规范单元，全部解释保留其原文入口。'}
         book['provenance']['representativeReadingSha256'] = sha(args.representative_reading)
+    if getattr(args, 'cover_image', None):
+        book['meta']['cover'] = load_cover(args.cover_image, book['meta']['title'], getattr(args, 'cover_page', None))
+    elif getattr(args, 'cover_page', None):
+        raise ValueError('--cover-page requires --cover-image')
     report_path = output / '构建报告.json'
     conflicts = [name for name in MANAGED if (output / name).exists()]
     if conflicts:
@@ -436,6 +443,8 @@ def main():
     parser.add_argument('--title')
     parser.add_argument('--author')
     parser.add_argument('--representative-reading', type=Path, help='Reuse an existing guided-reading content file as the representative presentation')
+    parser.add_argument('--cover-image', type=Path, help='Visually confirmed local book cover (PNG/JPEG/WebP); embeds offline')
+    parser.add_argument('--cover-page', type=int, help='Physical PDF page of the confirmed cover, if applicable')
     parser.add_argument('--force', action='store_true', help='Replace only paths owned by a previous build from this tool')
     build(parser.parse_args())
 

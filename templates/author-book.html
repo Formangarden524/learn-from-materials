@@ -11,13 +11,20 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.nav,.sidebar,.searchbox,.cta,.source-button,.leaf-source,.unit-navigation{display:none!important}.reader-layout{display:block}.view[hidden]{display:block!important;break-before:page}.route-button{background:white!important;color:#25312a!important}.modal{display:none}}
 .rep-tabs{display:grid;grid-template-columns:repeat(var(--rep-count,3),minmax(0,1fr));gap:12px;margin:15px 0 20px}.rep-tabs button{padding:13px;border:1px solid var(--line);background:transparent;border-radius:4px;text-align:left;font-family:var(--serif);font-size:19px;line-height:1.6}.rep-tabs button[aria-pressed=true]{background:var(--soft);border-color:var(--green)}.rep-answer h3{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1.6;margin:14px 0 10px}.rep-answer p{font-size:16px;line-height:2}.rep-answer .rep-details p{font-size:14px}.representative-block{border-top:1px solid var(--line);padding:20px 0}.representative-block h3.rep-label{font-size:15px;font-weight:600;margin:0}.rep-context{background:#edf0e5;padding:12px 17px;border-radius:4px;font-size:14px!important}.full-unit>summary{padding:10px 0;font-size:14px}.full-unit{margin:20px 0}.full-unit .block-label{margin-top:10px}@media(max-width:700px){.rep-tabs{gap:8px}.rep-tabs button{font-size:17px;padding:10px 8px}.rep-answer h3{font-size:22px}.rep-answer p{font-size:15px}}
+
+/* Optional, source-confirmed book cover; preserve full image and compact mainline. */
+.book-cover{margin:0;align-self:start;width:112px;flex:none}.book-cover img{display:block;width:100%;height:auto;max-height:160px;object-fit:contain;object-position:top left;border-radius:3px;box-shadow:0 6px 16px #18271c18}.book-cover figcaption{font-size:10px;line-height:1.6;color:var(--muted);margin-top:7px}.intro.has-cover{display:grid;grid-template-columns:112px minmax(0,1fr) auto;align-items:start;gap:26px}.intro.has-cover .legend{align-self:end}.intro-copy{min-width:0}
+@media(max-width:1000px) and (min-width:701px){.intro.has-cover{grid-template-columns:96px minmax(0,1fr);gap:20px}.book-cover{width:96px}.intro.has-cover .legend{grid-column:2;flex-direction:row;flex-wrap:wrap}}
+@media(max-width:700px){.intro.has-cover{grid-template-columns:76px minmax(0,1fr);gap:16px;align-items:start}.book-cover{width:76px}.book-cover img{max-height:110px}.book-cover figcaption{font-size:9px}.intro.has-cover .legend{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}.intro.has-cover h1{text-wrap:balance;font-size:28px}.intro.has-cover .lede{grid-column:auto}}
+
+@media(max-width:700px){.intro.has-cover{gap:8px 16px}.intro.has-cover .intro-copy{display:contents}.intro.has-cover .book-cover{grid-column:1;grid-row:1 / span 2}.intro.has-cover .intro-copy>.eyebrow{grid-column:2;grid-row:1;margin:0}.intro.has-cover .intro-copy>h1{grid-column:2;grid-row:2;margin:0 0 8px}.intro.has-cover .intro-copy>.lede{grid-column:1/-1;grid-row:3}.intro.has-cover .legend{grid-column:1/-1;grid-row:4;margin-top:10px}}
 </style>
 </head>
 <body><div class="shell">
 <header class="topbar"><div class="brand"><span class="seal" aria-hidden="true">读</span><div><strong id="brand-title"></strong><span class="edition">作者主线 · 单书阅读档案</span></div></div><nav class="nav" role="tablist" aria-label="阅读视图"><button role="tab" id="nav-overview" data-view="overview" aria-selected="true" aria-controls="view-overview">作者主线</button><button role="tab" id="nav-reader" data-view="reader" aria-selected="false" aria-controls="view-reader" tabindex="-1">逐章阅读</button><button role="tab" id="nav-archive" data-view="archive" aria-selected="false" aria-controls="view-archive" tabindex="-1">档案与复用</button></nav></header>
 <main>
 <section class="view" id="view-overview" role="tabpanel" aria-labelledby="nav-overview">
- <div class="intro"><div><p class="eyebrow">沿着作者原书，理解它怎样展开</p><h1 id="overview-title"></h1><p class="lede" id="overview-intro"></p></div><div class="legend"><span class="tag material">章名、次序 · 来自原书</span><span class="tag synthesis">阅读分组、解释 · 本页归纳</span><button class="source-button" data-provenance>查看内容标示 ↗</button></div></div>
+ <div class="intro"><figure class="book-cover" id="book-cover" hidden><img id="book-cover-image" alt="" decoding="async"><figcaption id="book-cover-caption"></figcaption></figure><div class="intro-copy"><p class="eyebrow">沿着作者原书，理解它怎样展开</p><h1 id="overview-title"></h1><p class="lede" id="overview-intro"></p></div><div class="legend"><span class="tag material">章名、次序 · 来自原书</span><span class="tag synthesis">阅读分组、解释 · 本页归纳</span><button class="source-button" data-provenance>查看内容标示 ↗</button></div></div>
  <div class="section-label"><strong>按原书先后展开</strong><span id="outline-count"></span></div>
  <ol class="route" id="group-route" aria-label="沿原书顺序的阅读分组"></ol>
  <p class="route-note">各组沿原书章节先后排列；组名与分区为编辑归纳。箭头表示阅读次序，资料章可按需查阅。</p>
@@ -43,6 +50,14 @@
 <script>
 'use strict';
 const BOOK=JSON.parse(document.getElementById('book-data').textContent),$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+const cover = BOOK.meta.cover;
+if(cover && /^data:image\/(png|jpeg|webp);base64,/.test(cover.dataUrl||'')){
+ const img=document.getElementById('book-cover-image');img.src=cover.dataUrl;img.alt=cover.alt||'原书封面';
+ document.getElementById('book-cover-caption').textContent=cover.sourceLabel||'原书封面';
+ document.getElementById('book-cover').hidden=false;document.getElementById('book-cover').parentElement.classList.add('has-cover');
+ img.addEventListener('error',()=>{document.getElementById('book-cover').hidden=true;document.getElementById('book-cover').parentElement.classList.remove('has-cover')});
+}
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sourceMap=new Map(BOOK.sources.map(s=>[s.id,s])),records=new Map(BOOK.units.map(r=>[r.unit.id,r])),structure=BOOK.structure;
 let selectedGroup=0,selectedUnit=structure.representativeUnitId||BOOK.units[0].unit.id,activeView='overview';

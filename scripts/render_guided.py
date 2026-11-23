@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Render a standalone reading guide; mechanical checks do not certify meaning."""
 import argparse
+import copy
+from cover_assets import load_cover
 import hashlib
 import html
 import json
@@ -104,12 +106,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('input', type=Path)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--cover-image', type=Path, help='Visually confirmed local cover image, embedded offline')
+    parser.add_argument('--cover-page', type=int, help='Physical PDF page of the cover, if applicable')
     parser.add_argument('--source-map', type=Path)
     parser.add_argument('--full-text', type=Path)
     args = parser.parse_args()
     require(bool(args.source_map) == bool(args.full_text), 'Supply source-map and full-text together')
     template = Path(__file__).resolve().parents[1] / 'templates/guided-reader.html'
-    result, report = render(json.loads(args.input.read_text()), template.read_text(), json.loads(args.source_map.read_text()) if args.source_map else None, args.full_text.read_text() if args.full_text else None)
+    data = json.loads(args.input.read_text())
+    if args.cover_image:
+        data['meta']['cover'] = load_cover(args.cover_image, data['meta']['book'], args.cover_page)
+    elif args.cover_page:
+        raise ValueError('--cover-page requires --cover-image')
+    result, report = render(data, template.read_text(), json.loads(args.source_map.read_text()) if args.source_map else None, args.full_text.read_text() if args.full_text else None)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(result)
     report['htmlSha256'] = hashlib.sha256(args.output.read_bytes()).hexdigest()
