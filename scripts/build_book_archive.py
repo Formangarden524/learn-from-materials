@@ -5,6 +5,8 @@ import argparse
 import copy
 from datetime import datetime, timezone
 import hashlib
+import base64
+import mimetypes
 import json
 from pathlib import Path
 import sys
@@ -78,6 +80,15 @@ def validate_structure(structure, unit_ids):
     need(all(type(value) is int and value > 0 for value in chapter_ids), 'Original chapters need positive integer chapterNumber')
     need(len(chapter_ids) == len(set(chapter_ids)), 'Duplicate original chapter number')
     need(all(isinstance(row.get('title'), str) and row['title'].strip() for row in chapters), 'Original chapter title is missing')
+    for chapter in chapters:
+        for field in ('readingQuestion', 'bridge', 'originalSectionLabel', 'originalPart'):
+            if field in chapter:
+                need(isinstance(chapter[field], str) and chapter[field].strip(), 'Invalid chapter.' + field)
+        if 'concepts' in chapter:
+            value = chapter['concepts']
+            need((isinstance(value, str) and value.strip()) or
+                 (isinstance(value, list) and value and all(isinstance(x, str) and x.strip() for x in value)), 'Invalid chapter.concepts')
+        need(not any(field in chapter for field in ('concepts', 'bridge')) or chapter.get('readingQuestion'), 'Chapter route needs readingQuestion')
     groups = structure.get('groups')
     need(isinstance(groups, list) and groups, 'Reading groups must not be empty')
     group_ids = [row.get('id') for row in groups]
@@ -419,7 +430,17 @@ def build(args):
         '- `bookAuthor`仅表示书籍署名，不等于每条引文发言者；`unitAttribution`保留章或附属材料的叙述语境，实际身份继续查阅原记录与定位。\n'
         '- 后续主题 Wiki 应选择相关内容、比较不同作者、保留冲突和限定，再决定是否归并；不能直接把本书观点改写成跨书共识或通用事实。\n'
         '- 新主线分组属于编辑归纳，当前状态：' + structure_label(book) + '；历史复核不升级为本轮重新审核。\n', encoding='utf-8')
-    payload = json.dumps(book, ensure_ascii=False).replace('<', '\\u003c')
+    display_book = copy.deepcopy(book)
+    for source in display_book['sources']:
+        embedded = []
+        for relative in source['visualPaths']:
+            image = (output / relative).resolve()
+            need(image.is_relative_to(output.resolve()), 'Image outside delivery')
+            mime = mimetypes.guess_type(image.name)[0]
+            need(mime in ('image/png', 'image/jpeg', 'image/webp'), 'Unsupported source image type')
+            embedded.append('data:' + mime + ';base64,' + base64.b64encode(image.read_bytes()).decode('ascii'))
+        source['visualPaths'] = embedded
+    payload = json.dumps(display_book, ensure_ascii=False).replace('<', '\\u003c')
     (output / '阅读网页.html').write_text(template_text.replace('__BOOK_DATA__', payload), encoding='utf-8')
     copied = archive / 'knowledge'
     need(all(sha(copied / rel) == fingerprint for rel, fingerprint in book['provenance']['inputFingerprints'].items()), 'Copied archive fingerprint mismatch')

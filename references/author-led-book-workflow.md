@@ -76,3 +76,7 @@ Wiki 复用数据保留稳定的 `bookId/unitId/conceptId`（缺少时由来源�
 从已提取图片复用，或将已确认的封面页渲染为本地PNG/JPEG/WebP。构建作者主线网页与导读时可传 `--cover-image /path/to/cover.png --cover-page 1`；页码必须是实际物理PDF页，非PDF图片省略页码。图片以data URL嵌入，不依赖远程加载，保持完整比例，窄屏缩小。`meta.cover`为可选展示字段，包含`dataUrl/sha256/alt/sourcePage/sourceLabel`，不改变书籍、章节、单元、主张及来源ID。旧内容无此字段仍正常渲染。
 
 纯封面更新复用正文与来源，不重新拆解书籍；检查桌面/窄屏封面、主线、出处与无封面回退。封面是书籍身份展示，不是为内容新增证据或语义审核。
+
+## 通用逐章路线与统一交付入口
+
+确认后补齐原章的阅读问题、关键概念和前后衔接，作为编辑归纳显示；不改原书次序和单元ID。使用 `scripts/book_pipeline.py` 统一生成、核验和公开派生，有部署授权时完成上线读回；字段、配置、浏览器证据与续跑约定见 `book-pipeline-workflow.md`。

@@ -5,14 +5,14 @@
 
 > 沿作者原书理解一本书，先确认主线与代表章节，再生成可追溯内容档案和交互阅读网页。
 
-![Status](https://img.shields.io/badge/version-1.2.0-blue)
+![Status](https://img.shields.io/badge/version-1.3.0-blue)
 ![Agent Skills](https://img.shields.io/badge/standard-Agent%20Skills-5b6ee1)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-这是 **Formangarden524 的 fork**，基于 [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials) 扩展。当前版本为 `1.2.0`，修订 `author-led-reading`，新增作者主线单书路线与可复用阅读模板，不代表上游维护者发布。
+这是 **Formangarden524 的 fork**，基于 [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials) 扩展。当前版本为 `1.3.0`，修订 `chapter-route-pipeline`，新增作者主线单书路线与可复用阅读模板，不代表上游维护者发布。
 
-## 1.2.0 的变化
+## 1.3.0 的变化
 
 - **沿作者原书拆解**：保留原章序、概念、论证、案例、条件与边界；编辑新增的阅读分组单独标明。
 - **尽早得到可判断的成果**：先形成全书主线和代表章节，再扩展全书。用户要求先确认时等待反馈，已认可的方向不重复审批。
@@ -54,7 +54,7 @@ git clone https://github.com/Formangarden524/learn-from-materials.git ~/.agents/
 
 其他客户端可按其文档改用 `~/.workbuddy/skills/`、`~/.claude/skills/` 或 `~/.copilot/skills/`。完整目录顶层应直接包含 `SKILL.md`、`scripts/`、`references/`、`templates/`，避免多套一层。替换已有同名安装前先备份，必要时重新加载客户端。
 
-本地打包文件名为 `learn-from-materials-1.2.0.zip`。这里不表示已上传 GitHub Release 附件；同步源码与发布打包附件是两个独立动作。
+本地打包文件名为 `learn-from-materials-1.3.0.zip`。这里不表示已上传 GitHub Release 附件；同步源码与发布打包附件是两个独立动作。
 
 需要 Python 3.10+，以及能读写文件、执行命令的 Agent。纯聊天环境不能执行本地提取或渲染。Node.js 和已有浏览器用于可选验证，不自动安装依赖。扫描 PDF 与图片密集材料需要实际 OCR 或视觉能力；不可核验范围应保留缺口。
 
@@ -125,3 +125,16 @@ python3 -m unittest discover -s scripts/tests -p 'test_*.py'
 详见 [SECURITY.md](SECURITY.md)、[CHANGELOG.md](CHANGELOG.md)、[LICENSE.md](LICENSE.md) 和 [NOTICE.md](NOTICE.md)。
 
 本 fork 继承 [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials)，包括 MIT 开源基础 [virgiliojr94/book-to-skill](https://github.com/virgiliojr94/book-to-skill) 与 [crayon-ai/book-to-webpage](https://github.com/crayon-ai/book-to-webpage) 的工作。分发时保留各自版权、许可证及来源说明。上游作者不为本 fork 的扩展背书。
+
+## Reusable chapter routes and book pipeline / 通用逐章路线与统一流程
+
+Chapter questions, concepts and bridges are optional editorial fields; older archives remain compatible. Offline HTML embeds source images. One local configuration drives build, verification and public export; deployment is explicit and requires current browser evidence, a recorded content scope, and an exact Vercel target.
+
+逐章问题、概念与衔接作为编辑归纳；没有新字段的旧档案继续可用。单文件内嵌原图。统一入口默认只生成、核验和整理公开文件，实际部署沿用户授权执行并验证线上哈希。
+
+```text
+python3 scripts/book_pipeline.py BOOK/config.json
+python3 scripts/book_pipeline.py BOOK/config.json --stage deploy
+```
+
+[Workflow and configuration / 完整操作说明](references/book-pipeline-workflow.md) · [Example / 配置示例](examples/book-pipeline/config.json)

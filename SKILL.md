@@ -3,14 +3,14 @@ name: learn-from-materials
 description: Turn books, PDFs, slides, documents, web pages and text into a source-grounded knowledge base, interactive learning HTML and Markdown in English or Chinese. Use for learning, summaries, explanations, review, quizzes, relationship maps, saving reusable methodology files, retrieving or comparing accumulated methods, and applying them to a real problem. 将材料转为可追溯知识库与交互学习页，支持中英文、关系图、方法论保存/检索/比较及应用；区分材料依据、推断与外部核验。
 license: MIT; see LICENSE.md and NOTICE.md
 metadata:
-  version: "1.2.0"
-  revision: author-led-reading
+  version: "1.3.0"
+  revision: chapter-route-pipeline
   compatibility: Requires filesystem access and Python 3.10+. Node.js and Playwright are optional for browser verification. Visual or OCR capability is recommended for scanned PDFs and image-heavy slides.
 ---
 
 # 知识学习助手
 
-将材料转为可追溯内容档案与离线交互网页。书籍首页展示经实际确认的原书封面（缺失时省略），保持离线嵌入。单书拆解以作者原书为主线，先确认主线和代表章节，再完成全书档案；主题知识体系在后续另行组织。模型理解原文并核对来源，脚本复用提取、映射与渲染。此为 Formangarden524 fork 的 1.2.0 扩展，继承原项目，不代表上游维护者发布。
+将材料转为可追溯内容档案与离线交互网页。书籍首页展示经实际确认的原书封面（缺失时省略），保持离线嵌入。单书拆解以作者原书为主线，先确认主线和代表章节，再完成全书档案；主题知识体系在后续另行组织。模型理解原文并核对来源，脚本复用提取、映射与渲染。此为 Formangarden524 fork 的 1.3.0 扩展，继承原项目，不代表上游维护者发布。
 
 ## 先确定请求
 
@@ -20,7 +20,7 @@ metadata:
 
 | 当前任务 | 必读入口与执行边界 |
 | --- | --- |
-| 作者主线单书拆解 | 普通“拆一本书／整本做成可视化交互网页”默认读 `references/author-led-book-workflow.md`。保留作者顺序与论证，先确认主线和代表章节，再完成可追溯的全书档案、网页与 Wiki 复用包；已有成果先迁移复用。 |
+| 作者主线单书拆解 | 普通“拆一本书／整本做成可视化交互网页”默认读 `references/author-led-book-workflow.md`。保留作者顺序与论证，先确认主线和代表章节，再完成可追溯的全书档案、网页与 Wiki 复用包；已有成果先迁移复用；逐章阅读路线与生成／核验／部署见 `references/book-pipeline-workflow.md`。 |
 | 限定范围的交互导读 | 用户只要样板、主线导读或指定部分时，读 `references/guided-reading-workflow.md`。可复用单书路线的首阶段，但样板不等于完成全书拆解。 |
 | 明确的学习深度 | 用户明确 quick／快速了解或 systematic／系统学习／全量知识整理时，读 `references/learning-depth-modes.md`、`references/material-processing.md`，保持原路线及门禁。只在目标仍无法判断时询问一次。 |
 | 新系统学习 | 在写作前读 `references/systematic-workflow.md`；按书籍／其他材料分别读 `references/book-quality-profile.md` 或 `references/material-quality-profile.md`。 |

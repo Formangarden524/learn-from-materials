@@ -1,5 +1,14 @@
 # 更新日志 / Changelog
 
+## 1.3.0 — Chapter routes and unified book publication
+
+- Reusable optional chapter reading questions, concepts and bridges, explicitly editorial; original part/chapter numbering is preserved and legacy archives remain supported.
+- Embed source illustrations in standalone offline HTML with their actual MIME type.
+- Add one configuration and staged build/verify/public-export/deploy entry point. Public preparation preserves user edits and previous successful output on failure.
+- Deployment requires actual browser evidence for the current HTML, recorded content scope and an explicit existing project; READY and anonymous artifact hashes are checked before success is reported.
+- Preserve the original quick/systematic contracts; no script grants semantic approval or automatically writes a theme Wiki.
+
+
 ## 首页原书封面（2026-11-24）
 
 作者主线与交互导读支持可选原书封面；通过 `--cover-image`、`--cover-page` 离线嵌入，保留来源页说明。封面须先实际确认，缺失时省略；兼容无封面的既有成果。

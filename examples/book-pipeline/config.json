@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "learn-from-materials/book-pipeline-v1",
+  "knowledgeBase": "./my-book.learnkb",
+  "structure": "./author-structure.json",
+  "delivery": "./delivery",
+  "publicDir": "./public-site",
+  "stateDir": "./pipeline-state",
+  "browserReview": "./browser-review.json",
+  "contentReadiness": {
+    "status": "not-reviewed",
+    "note": "Record actual completed reading, review and remaining limitations before changing status to ready."
+  },
+  "deployment": {
+    "projectId": "prj_your_existing_project",
+    "projectName": "your-book",
+    "teamId": "team_your_team",
+    "productionUrl": "https://your-book.vercel.app"
+  }
+}

@@ -5,14 +5,14 @@
 
 > Follow an author's book, confirm the reading structure early, then build a traceable content archive and interactive reading page.
 
-![Status](https://img.shields.io/badge/version-1.2.0-blue)
+![Status](https://img.shields.io/badge/version-1.3.0-blue)
 ![Agent Skills](https://img.shields.io/badge/standard-Agent%20Skills-5b6ee1)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-This is the **Formangarden524 fork**, extending [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials). Version `1.2.0`, revision `author-led-reading`, adds an author-led reading route and reusable reading templates. It is not an upstream-maintainer release.
+This is the **Formangarden524 fork**, extending [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials). Version `1.3.0`, revision `chapter-route-pipeline`, adds an author-led reading route and reusable reading templates. It is not an upstream-maintainer release.
 
-## What changed in 1.2.0
+## What changed in 1.3.0
 
 - **Author-led books:** retain the author's original chapter order, concepts, arguments, cases, conditions and limits. Editorial reading groups remain explicitly labeled.
 - **A visible result early:** establish the whole-book structure and a representative chapter before expanding the book. Confirm the structure when requested; reuse an already approved structure without repeating the same approval.
@@ -56,7 +56,7 @@ git clone https://github.com/Formangarden524/learn-from-materials.git ~/.agents/
 
 Use `~/.workbuddy/skills/`, `~/.claude/skills/` or `~/.copilot/skills/` instead if your client's documentation calls for it. The complete skill directory must contain `SKILL.md`, `scripts/`, `references/` and `templates/` directly. Back up an existing same-named installation before replacing it, then reload the client if needed.
 
-A locally packaged archive is named `learn-from-materials-1.2.0.zip`; this README does not imply that a GitHub Release asset has been uploaded. Source synchronization and packaged-release publication are separate actions.
+A locally packaged archive is named `learn-from-materials-1.3.0.zip`; this README does not imply that a GitHub Release asset has been uploaded. Source synchronization and packaged-release publication are separate actions.
 
 The skill requires Python 3.10+ and an agent with filesystem and command access. Pure chat cannot execute extraction or local rendering. Node.js and an existing browser are optional for browser checks. No dependencies are installed automatically. Scanned and image-heavy sources require actual OCR or vision support; unavailable ranges remain unverified.
 
@@ -129,3 +129,16 @@ The [legacy showcase index](assets/showcase/README.md) and [synthetic systematic
 See [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md).
 
 This fork inherits the work of [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials), including the MIT-licensed foundations [virgiliojr94/book-to-skill](https://github.com/virgiliojr94/book-to-skill) and [crayon-ai/book-to-webpage](https://github.com/crayon-ai/book-to-webpage). Preserve their copyright and license notices when redistributing. Upstream authors do not endorse this fork's extensions.
+
+## Reusable chapter routes and book pipeline / 通用逐章路线与统一流程
+
+Chapter questions, concepts and bridges are optional editorial fields; older archives remain compatible. Offline HTML embeds source images. One local configuration drives build, verification and public export; deployment is explicit and requires current browser evidence, a recorded content scope, and an exact Vercel target.
+
+逐章问题、概念与衔接作为编辑归纳；没有新字段的旧档案继续可用。单文件内嵌原图。统一入口默认只生成、核验和整理公开文件，实际部署沿用户授权执行并验证线上哈希。
+
+```text
+python3 scripts/book_pipeline.py BOOK/config.json
+python3 scripts/book_pipeline.py BOOK/config.json --stage deploy
+```
+
+[Workflow and configuration / 完整操作说明](references/book-pipeline-workflow.md) · [Example / 配置示例](examples/book-pipeline/config.json)
