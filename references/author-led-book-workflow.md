@@ -82,3 +82,5 @@ Wiki 复用数据保留稳定的 `bookId/unitId/conceptId`（缺少时由来源�
 ## 通用逐章路线与统一交付入口
 
 确认后补齐原章的阅读问题、关键概念和前后衔接，作为编辑归纳显示；不改原书次序和单元ID。使用 `scripts/book_pipeline.py` 统一生成、核验和公开派生，有部署授权时完成上线读回；字段、配置、浏览器证据与续跑约定见 `book-pipeline-workflow.md`。
+
+原书由文章、讲次等组成时，可在结构中设置 `chapterNoun`（默认“章”）及每行 `chapterLabel`，保留真实单位和索引身份。轻量单元没有细节条目、要点或框架时，模板省略相应空展开控件。转述中夹有明确的导读辨析时，主张使用 `kind: paraphrase-and-commentary`，页面显示“导读展开 · 转述与辨析”。
