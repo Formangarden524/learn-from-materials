@@ -1,5 +1,13 @@
 # 更新日志 / Changelog
 
+## 1.4.0 · 2026-11-25 · Formangarden524 fork
+
+- Adds one source-fingerprinted book context per project, concise HANDOFF/packet, and bounded exact-offset read receipts. Issuing a packet never marks its source read; interrupted acknowledgments are idempotent.
+- Persists canonical chapter checkpoints, separate source/content review notes, visual dispositions and whole-book review signatures. Source/content/outline/visual changes make relevant evidence stale without deleting valid progress.
+- Attached full-book contexts gate public preparation and deployment, including stale generated content. Legacy configurations remain compatible and gain no new completeness certification.
+- Preserves full-book reading, independent claims/examples/conditions and key-figure requirements; context reduction is not reduced coverage. No automatic chat creation, token-billing promise, or thematic Wiki writes.
+
+
 ## 1.3.0 — Chapter routes and unified book publication
 
 - Reusable optional chapter reading questions, concepts and bridges, explicitly editorial; original part/chapter numbering is preserved and legacy archives remain supported.

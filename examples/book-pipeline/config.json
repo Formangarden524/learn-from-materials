@@ -1,5 +1,6 @@
 {
   "schemaVersion": "learn-from-materials/book-pipeline-v1",
+  "requireBookContext": true,
   "knowledgeBase": "./my-book.learnkb",
   "structure": "./author-structure.json",
   "delivery": "./delivery",

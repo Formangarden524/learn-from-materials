@@ -32,6 +32,8 @@ python3 scripts/book_pipeline.py BOOK/config.json
 
 默认执行 **生成 → 机械核验 → 公开文件整理**，不会联网发布。
 
+新完整单书先按 `book-context-workflow.md` 初始化context，配置设`requireBookContext: true`；init写入`contextProject`。可先`--stage build`看草稿，公开整理/部署另核对全书进度、有效复核和档案是否与当前规范源一致。旧配置兼容运行，但不因此获得新的完整性认证。
+
 - 生成：调用作者主线构建器；保留稳定ID、来源、原文图像与同源Markdown。单文件HTML内嵌封面和原图，离线可读。
 - 核验：生成文件所有权哈希、章节到单元的完整映射、原文切片哈希、HTML与档案一致性、Wiki单元数；可用时检查JavaScript语法。报告不等于语义审核或浏览器验收。
 - 公开整理：只复制明确允许的档案和原图；去除本机路径、执行者字段、对话确认原句与内部工作记录；扫描剩余私有路径，生成 `learning-archive.zip` 和公开文件清单。保留学习解释和原文切片，不发布原PDF。失败不覆盖上一份公开成果；发现用户编辑时拒绝覆盖。

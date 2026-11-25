@@ -5,14 +5,18 @@
 
 > Follow an author's book, confirm the reading structure early, then build a traceable content archive and interactive reading page.
 
-![Status](https://img.shields.io/badge/version-1.3.0-blue)
+![Status](https://img.shields.io/badge/version-1.4.0-blue)
 ![Agent Skills](https://img.shields.io/badge/standard-Agent%20Skills-5b6ee1)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-This is the **Formangarden524 fork**, extending [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials). Version `1.3.0`, revision `chapter-route-pipeline`, adds an author-led reading route and reusable reading templates. It is not an upstream-maintainer release.
+This is the **Formangarden524 fork**, extending [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials). Version `1.4.0`, revision `book-context-resume`, adds an author-led reading route and reusable reading templates. It is not an upstream-maintainer release.
 
-## What changed in 1.3.0
+## 每书独立接续 / Per-book resume
+
+新增 [book context workflow](references/book-context-workflow.md)：分包原文读取、精确偏移回执、章节落盘与两遍复核、全书完整性检查和短接续包。`python3 scripts/book_context.py init BOOK/config.json --output BOOK/work/context` 后用 `packet` 接续。脚本不创建聊天、不清空宿主上下文，也不自动授予语义完整性；未读/过期复核会阻止附加context的完整书公开发布。旧流程兼容但不自动获得新认证。
+
+## What changed in 1.4.0
 
 - **Author-led books:** retain the author's original chapter order, concepts, arguments, cases, conditions and limits. Editorial reading groups remain explicitly labeled.
 - **A visible result early:** establish the whole-book structure and a representative chapter before expanding the book. Confirm the structure when requested; reuse an already approved structure without repeating the same approval.
@@ -56,7 +60,7 @@ git clone https://github.com/Formangarden524/learn-from-materials.git ~/.agents/
 
 Use `~/.workbuddy/skills/`, `~/.claude/skills/` or `~/.copilot/skills/` instead if your client's documentation calls for it. The complete skill directory must contain `SKILL.md`, `scripts/`, `references/` and `templates/` directly. Back up an existing same-named installation before replacing it, then reload the client if needed.
 
-A locally packaged archive is named `learn-from-materials-1.3.0.zip`; this README does not imply that a GitHub Release asset has been uploaded. Source synchronization and packaged-release publication are separate actions.
+A locally packaged archive is named `learn-from-materials-1.4.0.zip`; this README does not imply that a GitHub Release asset has been uploaded. Source synchronization and packaged-release publication are separate actions.
 
 The skill requires Python 3.10+ and an agent with filesystem and command access. Pure chat cannot execute extraction or local rendering. Node.js and an existing browser are optional for browser checks. No dependencies are installed automatically. Scanned and image-heavy sources require actual OCR or vision support; unavailable ranges remain unverified.
 

@@ -21,6 +21,7 @@ import zipfile
 from pathlib import Path
 from types import SimpleNamespace
 import build_book_archive as builder
+import book_context
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,7 +46,7 @@ def load_config(path):
     need(config.get('schemaVersion') == 'learn-from-materials/book-pipeline-v1', 'Expected book-pipeline-v1')
     for key in ('knowledgeBase', 'structure', 'delivery', 'publicDir', 'stateDir'):
         need(isinstance(config.get(key), str) and config[key], 'Missing ' + key)
-    for key in ('knowledgeBase', 'structure', 'delivery', 'publicDir', 'stateDir', 'sourcePdf', 'coverImage', 'representativeReading', 'browserReview'):
+    for key in ('knowledgeBase', 'structure', 'delivery', 'publicDir', 'stateDir', 'sourcePdf', 'coverImage', 'representativeReading', 'browserReview', 'contextProject'):
         if config.get(key):
             value = Path(config[key]).expanduser()
             config[key] = (path.parent / value).resolve() if not value.is_absolute() else value.resolve()
@@ -175,7 +176,28 @@ def _prepare(config, public):
                 bundle.write(file, file.relative_to(public))
     return {'status': 'public-files-prepared', 'files': len(manifest(public))}
 
+def require_context_complete(config):
+    """Legacy configurations gain no new completeness certification."""
+    project = config.get('contextProject')
+    if not project:
+        need(not config.get('requireBookContext'), 'Initialize/attach a per-book context before full publication')
+        return 'legacy-not-certified'
+    _, body, state, source = book_context.load(project)
+    need(source['kb'] == config['knowledgeBase'].resolve() and
+         book_context.resolve(source['config'].parent, source['cfg']['structure']) == config['structure'].resolve(),
+         'Completeness context belongs to another book/configuration')
+    book_context.audit(project, require_complete=True)
+    delivered = read(config['delivery'] / '书籍档案/book.json')
+    need(builder.digest(delivered['structure']) == builder.digest(source['structure']), 'Rebuild after changing original structure')
+    for record in delivered['units']:
+        canonical = source['kb'] / 'unit-records' / (record['unit']['id'] + '.json')
+        need(builder.digest(record) == builder.digest(read(canonical)), 'Rebuild after changing canonical content')
+    need({r['unit']['id'] for r in delivered['units']} ==
+         {p.stem for p in (source['kb'] / 'unit-records').glob('*.json')}, 'Delivered units differ from context')
+    return 'complete-with-recorded-review'
+
 def prepare(config):
+    require_context_complete(config)
     verify(config)
     public = config['publicDir']; saved = config['stateDir'] / 'public-manifest.json'
     if public.exists():
@@ -192,6 +214,7 @@ def prepare(config):
     return {**result, 'directory': str(public)}
 
 def deploy(config):
+    require_context_complete(config)
     public = config['publicDir']; state = config['stateDir']
     need((state / 'public-manifest.json').is_file(), 'Run prepare first')
     need(manifest(public) == read(state / 'public-manifest.json'), 'Public artifacts changed after preparation')

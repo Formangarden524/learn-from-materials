@@ -3,14 +3,14 @@ name: learn-from-materials
 description: Turn books, PDFs, slides, documents, web pages and text into a source-grounded knowledge base, interactive learning HTML and Markdown in English or Chinese. Use for learning, summaries, explanations, review, quizzes, relationship maps, saving reusable methodology files, retrieving or comparing accumulated methods, and applying them to a real problem. 将材料转为可追溯知识库与交互学习页，支持中英文、关系图、方法论保存/检索/比较及应用；区分材料依据、推断与外部核验。
 license: MIT; see LICENSE.md and NOTICE.md
 metadata:
-  version: "1.3.0"
-  revision: chapter-route-pipeline
+  version: "1.4.0"
+  revision: book-context-resume
   compatibility: Requires filesystem access and Python 3.10+. Node.js and Playwright are optional for browser verification. Visual or OCR capability is recommended for scanned PDFs and image-heavy slides.
 ---
 
 # 知识学习助手
 
-将材料转为可追溯内容档案与离线交互网页。书籍首页展示经实际确认的原书封面（缺失时省略），保持离线嵌入。单书拆解以作者原书为主线，先确认主线和代表章节，再完成全书档案；主题知识体系在后续另行组织。模型理解原文并核对来源，脚本复用提取、映射与渲染。此为 Formangarden524 fork 的 1.3.0 扩展，继承原项目，不代表上游维护者发布。
+将材料转为可追溯内容档案与离线交互网页。书籍首页展示经实际确认的原书封面（缺失时省略），保持离线嵌入。单书拆解以作者原书为主线，先确认主线和代表章节，再完成全书档案；主题知识体系在后续另行组织。模型理解原文并核对来源，脚本复用提取、映射与渲染。此为 Formangarden524 fork 的 1.4.0 扩展，继承原项目，不代表上游维护者发布。
 
 ## 先确定请求
 
@@ -34,6 +34,8 @@ metadata:
 既有主题／单元学习页先检索现有知识库并核对原文范围；字段需要时才读 `templates/components.md`。新中文／英文 JSON 分别参考 `examples/overview-current-zh.json` / `examples/overview-methods-content.json`；新系统学习参考 `examples/overview-sequential-systematic.json` 与 `examples/sequential-authoring/project.json`；旧 4.2 fixture 仅测试兼容。
 
 ## 既有学习页工作流程（quick / systematic）
+
+完整单书扩展与断点接续先读 `references/book-context-workflow.md`：每书独立项目与接续包，规范内容及时落盘，原文按精确范围分包读取，不把其他书正文、大段日志或内嵌图像JSON重印到上下文。脚本不创建聊天或清空宿主历史；新上下文从本书HANDOFF与短packet恢复。已读、已写、原文回读、查漏和全书核对分别记录；省上下文不能省掉独立内容、条件、案例或关键图表。新完整单书配置附加context后，未读/漏章/过期复核会阻止公开发布；旧成果不自动获得新认证。
 
 本节及下方“新系统学习”“学习页与关系图”“验收、恢复与交付”适用于既有学习页；作者主线单书拆解按 `references/author-led-book-workflow.md`、限定范围导读按 `references/guided-reading-workflow.md` 执行。两者不继承旧六模块与多账本要求，也不能冒称通过旧系统学习门禁。
 

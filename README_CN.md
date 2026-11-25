@@ -5,14 +5,18 @@
 
 > 沿作者原书理解一本书，先确认主线与代表章节，再生成可追溯内容档案和交互阅读网页。
 
-![Status](https://img.shields.io/badge/version-1.3.0-blue)
+![Status](https://img.shields.io/badge/version-1.4.0-blue)
 ![Agent Skills](https://img.shields.io/badge/standard-Agent%20Skills-5b6ee1)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-这是 **Formangarden524 的 fork**，基于 [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials) 扩展。当前版本为 `1.3.0`，修订 `chapter-route-pipeline`，新增作者主线单书路线与可复用阅读模板，不代表上游维护者发布。
+这是 **Formangarden524 的 fork**，基于 [dmoshehun-prog/learn-from-materials](https://github.com/dmoshehun-prog/learn-from-materials) 扩展。当前版本为 `1.4.0`，修订 `book-context-resume`，新增作者主线单书路线与可复用阅读模板，不代表上游维护者发布。
 
-## 1.3.0 的变化
+## 每书独立接续 / Per-book resume
+
+新增 [book context workflow](references/book-context-workflow.md)：分包原文读取、精确偏移回执、章节落盘与两遍复核、全书完整性检查和短接续包。`python3 scripts/book_context.py init BOOK/config.json --output BOOK/work/context` 后用 `packet` 接续。脚本不创建聊天、不清空宿主上下文，也不自动授予语义完整性；未读/过期复核会阻止附加context的完整书公开发布。旧流程兼容但不自动获得新认证。
+
+## 1.4.0 的变化
 
 - **沿作者原书拆解**：保留原章序、概念、论证、案例、条件与边界；编辑新增的阅读分组单独标明。
 - **尽早得到可判断的成果**：先形成全书主线和代表章节，再扩展全书。用户要求先确认时等待反馈，已认可的方向不重复审批。
@@ -54,7 +58,7 @@ git clone https://github.com/Formangarden524/learn-from-materials.git ~/.agents/
 
 其他客户端可按其文档改用 `~/.workbuddy/skills/`、`~/.claude/skills/` 或 `~/.copilot/skills/`。完整目录顶层应直接包含 `SKILL.md`、`scripts/`、`references/`、`templates/`，避免多套一层。替换已有同名安装前先备份，必要时重新加载客户端。
 
-本地打包文件名为 `learn-from-materials-1.3.0.zip`。这里不表示已上传 GitHub Release 附件；同步源码与发布打包附件是两个独立动作。
+本地打包文件名为 `learn-from-materials-1.4.0.zip`。这里不表示已上传 GitHub Release 附件；同步源码与发布打包附件是两个独立动作。
 
 需要 Python 3.10+，以及能读写文件、执行命令的 Agent。纯聊天环境不能执行本地提取或渲染。Node.js 和已有浏览器用于可选验证，不自动安装依赖。扫描 PDF 与图片密集材料需要实际 OCR 或视觉能力；不可核验范围应保留缺口。
 
