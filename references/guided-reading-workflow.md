@@ -37,7 +37,7 @@
 
 渲染器接受 `schemaVersion: learn-from-materials/guided-reading-v1`，与旧 overview 分开。沿用 JSON 单份内容，字段如下；原文引用与实际复核由执行者负责。
 
-- `meta`：`book`（通用材料标题）、`author`、`scope`、`note`、`sourceType`、`status`（`prototype` 或 `reading-guide`）、`representativeSpineId`；本机 PDF 可另给绝对路径 `sourcePdf`。
+- `meta`：`book`（通用材料标题）、`author`、`scope`、`note`、`sourceType`、`status`（`prototype` 或 `reading-guide`）、`representativeSpineId`；本机 PDF 可另给绝对路径 `sourcePdf`；原书按文章、讲次等组织时，可用 `outlineLabel` 写明目录数量单位，避免把篇目误称为章。
 - `presentation`：`overviewTitle/overviewIntro/representativeLabel/representativeTitle/representativeIntro/representativeScope/sectionHeading`；`sectionEvidence` 为 `material` 或 `synthesis`；`sectionRelation` 为 `sequence` 或 `independent`，只有来源支持顺序时才选前者；`sectionSourceIds` 引用真实引文 ID。`detailHeading/takeawayHeading/eyebrow` 可选。当前内置模板固定标签为中文；其他语言需另存翻译模板，不能宣称自动双语。
 - `spine[]`：`id/title/kicker/question/summary/relation/chapterRefs/sourceIds`，`evidence: synthesis`。这是编辑的阅读路线，不限定节点配额；`chapterRefs` 可用真实章号或实际标题。
 - `sections[]`：`id/title/short/question/explanation/distinction/details/sourceIds/evidence`；`details` 为 `{name,text}`，对应概念、要素或参与者，不固定为某专业器官。可选 `example: {title,text,sourceIds,evidence}`；材料没有例子时省略，不能为模板编造。

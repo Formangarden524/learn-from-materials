@@ -83,7 +83,7 @@ def render(data, template, source_map=None, full_text=None):
         '__OVERVIEW_TITLE__': view['overviewTitle'], '__OVERVIEW_INTRO__': view['overviewIntro'],
         '__OUTLINE_HEADING__': '作者章名' if material_kind == 'book' else '原文标题',
         '__REPRESENTATIVE_SHORT__': '代表章节' if material_kind == 'book' else '代表内容',
-        '__OUTLINE_COUNT__': str(len(data['chapters'])) + (' 章' if material_kind == 'book' else ' 个部分'),
+        '__OUTLINE_COUNT__': meta.get('outlineLabel') or str(len(data['chapters'])) + (' 章' if material_kind == 'book' else ' 个部分'),
         '__REPRESENTATIVE_LABEL__': view['representativeLabel'], '__REPRESENTATIVE_TITLE__': view['representativeTitle'],
         '__REPRESENTATIVE_INTRO__': view['representativeIntro'], '__SECTIONS_HEADING__': view['sectionHeading'],
         '__SECTION_CLASS__': view['sectionEvidence'], '__SECTION_ORIGIN__': ('原书转述' if material_kind == 'book' else '原文转述') if view['sectionEvidence'] == 'material' else '导读归纳',
