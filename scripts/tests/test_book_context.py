@@ -81,6 +81,20 @@ class BookContextTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Stale/overlapping'):
             C.mutate(self.project, 'ack-read', receipt=large['receipt'], note='Would overlap already acknowledged text.')
 
+    def test_representative_chapter_read_does_not_complete_other_pages(self):
+        # A new independent fixture avoids changing the already-bound source fingerprint.
+        import shutil
+        other=self.root/'scoped';other.mkdir();kb=self.root/'scoped-kb';shutil.copytree(self.kb,kb)
+        raw=(kb/'full_text.txt').read_text();middle=len(raw)//2
+        mapping=C.read_json(kb/'source_map.json');first=mapping[0];second=dict(first,source_id='source-002',pdf_page=2,start_char=middle,end_char=len(raw),content_sha256=hashlib.sha256(raw[middle:].encode()).hexdigest());first.update(end_char=middle,content_sha256=hashlib.sha256(raw[:middle].encode()).hexdigest());(kb/'source_map.json').write_text(json.dumps([first,second]))
+        structure=C.read_json(self.f.structure_path);structure['originalStructure'].append(dict(chapterNumber=2,title='Representative',pageStart=2,pageEnd=2,unitIds=[]));sp=other/'structure.json';sp.write_text(json.dumps(structure))
+        cfg=copy.deepcopy(self.cfg);cfg.update(knowledgeBase=str(kb),structure=str(sp));cp=other/'config.json';cp.write_text(json.dumps(cfg));project=C.initialize(cp,other/'context')
+        packet=C.next_read(project,40000,chapter='chapter-2')
+        self.assertEqual([p['page'] for p in packet['passages']],[2])
+        C.mutate(project,'ack-read',receipt=packet['receipt'],note='Read only the representative source page.')
+        self.assertEqual(C.audit(project)['readPages'],1)
+        self.assertEqual(C.next_read(project,40000)['passages'][0]['page'],1)
+
     def test_all_offsets_cover_source_exactly_after_restarts(self):
         self.read_all()
         state = C.read_json(self.project.parent/'state.json')

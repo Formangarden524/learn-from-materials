@@ -234,14 +234,18 @@ def packet(project):
                     note='Only source access/review declarations are recorded. Independent content, cases, conditions and figures still require actual reading and review; no fixed card quota.')
 
 
-def next_read(project, chars=12000):
+def next_read(project, chars=12000, chapter=None):
     need(type(chars) is int and 64 <= chars <= 40000, 'Chunk size must be between 64 and 40000 characters')
     path = Path(project).resolve()
     with locked(path.parent / '.context.lock'):
         _, body, state, src = load(path)
         spans, remaining = [], chars
         read = read_ids(state, src)
+        selected = dict(src['chapters']).get(chapter) if chapter else None
+        need(not chapter or selected is not None, 'Unknown chapter for scoped reading')
         for row in src['mapping']:
+            if selected and not selected['pageStart'] <= row['pdf_page'] <= selected['pageEnd']:
+                continue
             sid = row['source_id']
             if sid in read: continue
             start = state['offsets'].get(sid, 0)
@@ -308,7 +312,9 @@ def main():
     init = sub.add_parser('init'); init.add_argument('config', type=Path); init.add_argument('--output', required=True, type=Path)
     for command in ('packet', 'read-next', 'ack-read', 'checkpoint', 'review-chapter', 'review-visual', 'review-book', 'audit'):
         p = sub.add_parser(command); p.add_argument('project', type=Path)
-        if command == 'read-next': p.add_argument('--chars', type=int, default=12000)
+        if command == 'read-next':
+            p.add_argument('--chars', type=int, default=12000)
+            p.add_argument('--chapter', help='Read a representative/current original chapter without marking other pages read')
         if command == 'ack-read': p.add_argument('--receipt', required=True)
         if command in ('checkpoint', 'review-chapter'): p.add_argument('--chapter', required=True)
         if command == 'review-chapter': p.add_argument('--phase', choices=('source', 'content'), required=True)
@@ -319,7 +325,7 @@ def main():
     args = vars(parser.parse_args()); command = args.pop('command')
     if command == 'init': result = dict(project=str(initialize(args['config'], args['output'])), status='initialized-unread')
     elif command == 'packet': result = packet(args['project'])
-    elif command == 'read-next': result = next_read(args['project'], args['chars'])
+    elif command == 'read-next': result = next_read(args['project'], args['chars'], args['chapter'])
     elif command == 'audit': result = audit(args['project'], args['require_complete'])
     else:
         project = args.pop('project'); result = mutate(project, command, **args)

@@ -22,6 +22,8 @@ init只创建本书私有状态并把`contextProject`附加到原配置；已有
 
 read-next按精确字符偏移分包，长页也能续读，不静默截断；默认最多12000原文字符，可在64—40000之间调整。字符不是精确token。工具输出有宿主截断时，减小分包并实际读完，不能确认一个自己没有完整看到的包。中断后再次运行会给出相同范围，直到显式确认。
 
+代表样章或当前章可加`--chapter chapter-1`限定读取；其他页仍是未读，不能据此完成全书。之后不限定章节时继续原书顺序，会跳过已实际确认的范围，避免重发样章全文；需要第二遍语义回读的原文仍须实际查看。
+
 ```text
 python3 scripts/book_context.py ack-read BOOK/work/context/project.json --receipt RECEIPT_ID --note "本次实际阅读范围、发现的OCR/内容问题"
 ```
